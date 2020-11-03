@@ -31,7 +31,7 @@ app.get("/write", (req, res) => {
         return;
     }
 
-    nthLine(+input - 1, 'DB/text.txt')
+    nthLine(+input - 1, '../DB/text.txt')
         .then(line => {
             res.send(line);
             return;
