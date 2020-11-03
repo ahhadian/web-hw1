@@ -103,7 +103,67 @@ Execute the following commands:
 ```
 sudo apt-get upate
 sudo apt-get install nodejs
+sudo apt install npm
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt update
+sudo apt install yarn
 node -v
+npm -v
+yarn --version
 ```
-If you saw version of node, it means nodejs has installed properly
+If you saw version of node, npm, and yarn it means nodejs, npm and yarn has installed properly
 
+### Cloning the Repository
+After installing go and node, clone our repository in your home directory with the following command
+```
+git clone [LINK-OF-OUR-REPO]
+```
+### Nodejs Server Deployment
+You should install some modules for nodejs by following commands:
+```
+cd ~/web-hw1/nodejs
+yarn add express
+yarn add cors
+yarn add nthline
+```
+Now you should create a systemd unit file in order to run nodejs server with it:
+```
+sudo nano /lib/systemd/system/nodeweb.service
+```
+Copy and paste following lines in this file and save it
+```
+[Unit]
+Description=goweb
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=5s
+ExecStart=/usr/bin/node /home/kasra/hw1/web-hw1/nodejs/index.js
+
+[Install]
+WantedBy=multi-user.target
+```
+Now start and enable your new service by the following commands:
+```
+sudo systemctl start nodeweb.service
+sudo systemctl enable nodeweb.service
+sudo systemctl status nodeweb.service
+```
+You should see the following output if your service is working properly:
+```
+● nodeweb.service - goweb
+     Loaded: loaded (/lib/systemd/system/nodeweb.service; enabled; vendor preset: enabled)
+     Active: active (running) since Tue 2020-11-03 15:45:19 UTC; 1h 15min ago
+   Main PID: 22099 (node)
+      Tasks: 7 (limit: 4587)
+     Memory: 16.3M
+     CGroup: /system.slice/nodeweb.service
+             └─22099 /usr/bin/node /home/kasra/hw1/web-hw1/nodejs/index.js
+
+Nov 03 15:45:19 server1 systemd[1]: nodeweb.service: Scheduled restart job, restart counter is at 1.
+Nov 03 15:45:19 server1 systemd[1]: Stopped goweb.
+Nov 03 15:45:19 server1 systemd[1]: Started goweb.
+Nov 03 15:45:20 server1 node[22099]: App listening at http://127.0.0.1:9991
+```
