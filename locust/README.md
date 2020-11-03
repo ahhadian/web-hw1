@@ -12,6 +12,7 @@ Validate your installation by:
 locust -V
 ```
 
+## Usage
 For each API, there is a python file. In roder to load test go-write, run:
 
 ```
