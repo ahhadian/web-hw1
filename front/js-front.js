@@ -55,17 +55,18 @@ function onFetchNode() {
         });
 }
 function onFetchGo() {
-    fetch('/go/write?input=' + document.getElementById("lineNumber").value)
-        .then(res => {
-            console.log("here")
-            if (res.status !== 200) {
+    var http = new XMLHttpRequest();
+    http.onreadystatechange = function() {
+        if(this.readyState == 4){
+            if(this.status !== 200){
                 console.log('Looks like there was a problem. Status Code: ' + response.status);
                 return;
             }
-            return res.text();
-        })
-        .then(body => {
-            let ans = document.getElementById("result");
-            ans.innerText = body;
-        });
+            else{
+                document.getElementById("result").innerText = http.responseText;
+            }
+        }
+    }
+    http.open("GET", '/go/write?input=' + document.getElementById("lineNumber").value, true);
+    http.send();
 }

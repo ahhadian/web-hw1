@@ -38,7 +38,7 @@ func writeHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		fmt.Print(keys[0], "\n")
 		fmt.Print(readLine(keys[0]))
-		_, _ = fmt.Fprintf(w, "%sth line content: %s", keys[0], readLine(keys[0]))
+		_, _ = fmt.Fprintf(w, "%s", readLine(keys[0]))
 		break
 	default:
 		_, _ = fmt.Fprintf(w, "Request must be GET")
