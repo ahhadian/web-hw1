@@ -1,5 +1,4 @@
 # web-hw1
-## Quick start
 You should first install nginx web server
 ## Nginx Installation
 
@@ -140,13 +139,14 @@ Description=goweb
 Type=simple
 Restart=always
 RestartSec=5s
-ExecStart=/usr/bin/node /home/kasra/hw1/web-hw1/nodejs/index.js
+ExecStart=/usr/bin/node ~/web-hw1/nodejs/index.js
 
 [Install]
 WantedBy=multi-user.target
 ```
 Now start and enable your new service by the following commands:
 ```
+sudo systemctl daemon-reload
 sudo systemctl start nodeweb.service
 sudo systemctl enable nodeweb.service
 sudo systemctl status nodeweb.service
@@ -160,10 +160,53 @@ You should see the following output if your service is working properly:
       Tasks: 7 (limit: 4587)
      Memory: 16.3M
      CGroup: /system.slice/nodeweb.service
-             └─22099 /usr/bin/node /home/kasra/hw1/web-hw1/nodejs/index.js
+             └─22099 /usr/bin/node [YOUR-HOME-DIRECTORY-PATH]/web-hw1/nodejs/index.js
+```
+### Go Server Deployment
+You should now do the same steps for deploying go server using the following command s:
+```
+cd ~/web-hw1/go
+sudo nano /lib/systemd/system/nodeweb.service
+```
+Copy and paste the following lines in the created file and save it:
+```
+[Unit]
+Description=goweb
 
-Nov 03 15:45:19 server1 systemd[1]: nodeweb.service: Scheduled restart job, restart counter is at 1.
-Nov 03 15:45:19 server1 systemd[1]: Stopped goweb.
-Nov 03 15:45:19 server1 systemd[1]: Started goweb.
-Nov 03 15:45:20 server1 node[22099]: App listening at http://127.0.0.1:9991
+[Service]
+Type=simple
+Restart=always
+RestartSec=5s
+ExecStart=~/web-hw1/go/go
+
+[Install]
+WantedBy=multi-user.target
+```
+Start and enable your service with the following commands:
+```
+sudo systemctl daemon-reload
+sudo systemctl start goweb.service
+sudo systemctl enable goweb.service
+sudo systemctl status goweb.service
+```
+You should see the following output if your service is working properly:
+```
+● goweb.service - goweb
+     Loaded: loaded (/lib/systemd/system/goweb.service; enabled; vendor preset: enabled)
+     Active: active (running) since Tue 2020-11-03 15:45:16 UTC; 1h 26min ago
+   Main PID: 22094 (go)
+      Tasks: 5 (limit: 4587)
+     Memory: 1.4M
+     CGroup: /system.slice/goweb.service
+             └─22094 [YOUR-HOME-DIRECTORY-PATH]/web-hw1/go/go
+```
+### Nginx Configuration
+You should configure your nginx webserver by nginx.conf file in web-hw1/nginx. Use the following command:
+```
+sudo cp ~/web-hw1/nginx/nginx.conf /etc/nginx/
+sudo systemctl restart nginx
+```
+You should also copy files of front directory into the home of nginx (/var/www/html):
+```
+sudo cp ~/web-hw1/front/* /var/www/html
 ```
