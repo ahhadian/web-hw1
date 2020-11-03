@@ -52,13 +52,15 @@ app.post('/nodejs/sha256',function(req, res){
 			if(!(/[0-9]+/.test(n1) && /[0-9]+/.test(n2))){
 				res.status(400)
 				res.send("error occured in regex")
-			}
-			var sumStr = String(parseInt(n1) + parseInt(n2))
-			var hash = crypto.createHash("sha256").update(sumStr).digest("hex")
-			res.setHeader('Content-Type', 'application/json');
-			res.send(JSON.stringify({
-				sha256: hash || null
-			}));
+            }
+            else{
+                var sumStr = String(parseInt(n1) + parseInt(n2))
+                var hash = crypto.createHash("sha256").update(sumStr).digest("hex")
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify({
+                    sha256: hash || null
+                }));
+            }
 		}
 	}, 0)
 });
