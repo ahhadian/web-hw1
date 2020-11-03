@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true })); 
 
-app.get("/write", (req, res) => {
+app.get("/nodejs/write", (req, res) => {
     let input = req.query.input;
     let answer;
     if (input === null) {
