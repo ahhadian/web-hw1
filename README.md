@@ -59,13 +59,51 @@ You should see this output:
 ```
 ### For Centos:
 
-- `sudo yum install epel-release`
-- `sudo yum install nginx`
-- `sudo systemctl start nginx`
-- `sudo yum install firewalld`
-- `sudo systemctl enable firewalld`
-- `sudo systemctl start firewalld`
-- `sudo firewall-cmd --permanent --zone=public --add-service=http `
-- `sudo firewall-cmd --permanent --zone=public --add-service=https`
-- `sudo firewall-cmd --permanent --zone=public --add-service=ssh`
-- `sudo firewall-cmd --reload`
+```
+sudo yum install epel-release
+sudo yum install nginx
+sudo systemctl start nginx
+sudo yum install firewalld
+sudo systemctl enable firewalld
+sudo systemctl start firewalld
+sudo firewall-cmd --permanent --zone=public --add-service=http
+sudo firewall-cmd --permanent --zone=public --add-service=https
+sudo firewall-cmd --permanent --zone=public --add-service=ssh
+sudo firewall-cmd --reload
+```
+Now you should check if Nginx is running: 
+```
+sudo systemctl status nginx
+```
+You should see this output:
+```
+● nginx.service - A high performance web server and a reverse proxy server
+   Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)
+   Active: active (running) since Fri 2018-04-20 16:08:19 UTC; 3 days ago
+     Docs: man:nginx(8)
+ Main PID: 2369 (nginx)
+    Tasks: 2 (limit: 1153)
+   CGroup: /system.slice/nginx.service
+           ├─2369 nginx: master process /usr/sbin/nginx -g daemon on; master_process on;
+           └─2380 nginx: worker process
+```
+## Server Deployment
+### Golang Installation
+You should first download golang from https://golang.org/doc/install
+After downloading execute these commands:
+```
+tar -C /usr/local -xzf go1.15.3.linux-amd64.tar.gz
+export PATH=$PATH:/usr/local/go/bin
+go version
+```
+If you saw version of go in the terminal, it means golang has installed porperly
+
+### Nodejs Installation
+Execute the following commands:
+```
+sudo apt-get upate
+sudo apt-get install nodejs
+node -v
+```
+If you saw version of node, it means nodejs has installed properly
+
